@@ -1,31 +1,45 @@
-import simpleGit, { SimpleGit, SimpleGitOptions, ListLogSummary, DefaultLogFields, ListLogLine } from 'simple-git';
-import { loadavg } from 'os';
+import simpleGit, {
+    SimpleGit,
+    SimpleGitOptions,
+    ListLogSummary,
+    DefaultLogFields,
+    ListLogLine,
+    DiffResultTextFile,
+    DiffResultBinaryFile
+} from 'simple-git';
+
 import { AffectedCommits } from './types';
+
 import moment = require('moment');
+const path = require('path');
  
 (async () => {
     
     const options: SimpleGitOptions = {
-        baseDir: process.cwd(),
+        baseDir: path.join(__dirname, process.env.baseDir || './'),
         binary: 'git',
         maxConcurrentProcesses: 6,
      };
 
-     const isCommitAffected = (log: DefaultLogFields & ListLogLine): boolean => {
-         return log.diff?.files.some(file => file.file.includes('.scss'))
+    const filesAffected = (
+         log: DefaultLogFields & ListLogLine
+    ): Array<DiffResultTextFile | DiffResultBinaryFile> => {
+         return log.diff?.files.filter(file => file.file.includes('.scss'))
      }
     
     try {
         const git: SimpleGit = simpleGit(options);
-        const logList: ListLogSummary = await git.log({'--stat': null});
+        const logList: ListLogSummary = await git.log({'--stat': null, '--reverse': null});
 
         const affectedCommits: Array<AffectedCommits> = [];
+
         logList.all.forEach(log => {
-            if(isCommitAffected(log)){
+            const affectedFiles = filesAffected(log);
+            if(affectedFiles && affectedFiles.length){
                 const affectedCommit: AffectedCommits = {
                     author: log.author_email,
                     datetime: moment(log.date).toDate(),
-                    files: log.diff?.files.map(file => ({
+                    files: affectedFiles.map(file => ({
                         name: file.file,
                         changes: file.changes,
                     }))
