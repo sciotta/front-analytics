@@ -1,5 +1,10 @@
-export type Abc = {
+export type FileStats = {
+    name: string;
+    changes: number;
+}
+
+export type AffectedCommits = {
     datetime: Date;
     author: string;
-    totalFiles: number;
+    files: Array<FileStats>;
 }
