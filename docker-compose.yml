@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+
+  fs_postgres:
+    image: postgres:11.5
+    command: ["-c", "fsync=off", "-c", "full_page_writes=off", "-c", "synchronous_commit=off"]
+    environment:
+      POSTGRES_DB: "FRONTDB"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - fe-network
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    command: fs_postgres:5432
+    depends_on:
+      - fs_postgres
+    networks:
+      - fe-network
+
+  front_statistics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm start
+    environment:
+      - NODE_ENV=docker
+      - DATABASE_DB_NAME=gupy_test
+    depends_on:
+      - fs_postgres
+    networks:
+      - fe-network
+
+networks:
+  fe-network:
+    driver: bridge
