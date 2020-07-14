@@ -4,6 +4,7 @@ export type FileStats = {
 }
 
 export type AffectedCommits = {
+    id: string;
     datetime: Date;
     author: string;
     files: Array<FileStats>;
