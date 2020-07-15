@@ -18,7 +18,7 @@ import { query } from './config/database';
 (async () => {
 
     const options: SimpleGitOptions = {
-        baseDir: path.join(__dirname, process.env.baseDir || './'),
+        baseDir: path.join(__dirname, (process.env.baseDir || './'), '/repo/gupy-front'),
         binary: 'git',
         maxConcurrentProcesses: 6,
      };
@@ -56,6 +56,7 @@ import { query } from './config/database';
 
         try {
             for (const affectedCommit of affectedCommits) {
+                console.log('commit', affectedCommit.id);
                 await query('insert into commits (id, author, commited_at) VALUES ($1, $2, $3)', [
                     affectedCommit.id,
                     affectedCommit.author,

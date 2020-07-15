@@ -12,3 +12,5 @@ CREATE TABLE commit_files (
   name VARCHAR(250),
   CONSTRAINT commit_files_pk PRIMARY KEY (id)
 );
+
+CREATE DATABASE metabase;
