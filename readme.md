@@ -19,9 +19,14 @@ We use Docker (docker-compose) to compose a set of containers:
 
 This script go through all git commits and save all that have at least 1 change on any .scss file.
 
+## How to use it (get started)
 
-You need to specify *BASE_DIR* env to able Dockerfile copy repository folder.
+* Clone any repository into /repo folder
 
-## Environment variables
+  ```E.g: git clone xxxxxxxx repo```
 
-- **BASE_DIR** => Git repository dir
+* make up
+
+* wait for all dependencies
+
+* Open Metabase in your browser: http://localhost:3030
