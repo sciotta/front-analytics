@@ -13,12 +13,14 @@ import { AffectedCommits } from './types';
 import moment = require('moment');
 const path = require('path');
 
-import { query } from './config/database';
+import { query, cleaner } from './config/database';
 
 (async () => {
 
+    await cleaner();
+
     const options: SimpleGitOptions = {
-        baseDir: path.join(__dirname, (process.env.baseDir || './'), '/repo/gupy-front'),
+        baseDir: path.join(__dirname, '/repo'),
         binary: 'git',
         maxConcurrentProcesses: 6,
      };
