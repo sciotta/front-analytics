@@ -13,6 +13,7 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 
 RUN npm install -g typescript@3.8.3 --quiet
 
-COPY --chown=node:node . /home/node/app/
+COPY --chown=node:node ./src /home/node/app/
+COPY --chown=node:node ./repo /home/node/app/repo/
 
 RUN npm ci --quiet --silent
