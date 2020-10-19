@@ -25,7 +25,7 @@ services:
   commits_analyzer:
     build:
       context: .
-      dockerfile: commits-analyzer/Dockerfile
+      dockerfile: analyzers/commits-analyzer/Dockerfile
     command: npm start
     environment:
       - NODE_ENV=docker

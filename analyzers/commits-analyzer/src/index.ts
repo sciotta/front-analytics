@@ -20,7 +20,7 @@ import { query, cleaner } from './config/database';
     await cleaner();
 
     const options: SimpleGitOptions = {
-        baseDir: path.join(__dirname, '/repo'),
+        baseDir: path.join(__dirname, './../repo'),
         binary: 'git',
         maxConcurrentProcesses: 6,
      };
