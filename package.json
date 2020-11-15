@@ -1,0 +1,7 @@
+{
+  "name": "@gupy/front-analytics",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
